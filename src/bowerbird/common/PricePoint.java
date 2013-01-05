@@ -6,9 +6,9 @@ public class PricePoint {
 	
 	public Date date; 
 	
-	public int newQuantity;
-	public int usedQuantity;
-	public int refurbQuantity;
+	private int newQuantityMax;
+	private int usedQuantityMax;
+	private int refurbQuantityMax;
 	
 	private int usedPriceLow;
 	private int newPriceLow;
@@ -20,17 +20,29 @@ public class PricePoint {
 	
 	public PricePoint() {
 		date = new Date();
-		newQuantity = usedQuantity = refurbQuantity = 0;
+		newQuantityMax = usedQuantityMax = refurbQuantityMax = 0;
 		usedPriceLow = newPriceLow = refurbPriceLow = -1;
 		usedPriceHigh = newPriceHigh = refurbPriceHigh = -1;
 	}
 	
 	public String toString() {
 		String s = new String();
-		s+="New:" + newQuantity + "@" + newPriceLow + " - " + newPriceHigh + "\n";
-		s+="Used:" + usedQuantity + "@" + usedPriceLow + " - " + usedPriceHigh+ "\n";
-		s+="Refurb:" + refurbQuantity + "@" + refurbPriceLow + " - " + refurbPriceHigh + "\n";
+		s+="New:" + newQuantityMax + "@" + newPriceLow + " - " + newPriceHigh + "\n";
+		s+="Used:" + usedQuantityMax + "@" + usedPriceLow + " - " + usedPriceHigh+ "\n";
+		s+="Refurb:" + refurbQuantityMax + "@" + refurbPriceLow + " - " + refurbPriceHigh + "\n";
 		return s;
+	}
+	
+	public void setNewQuantity(int amount) {
+		newQuantityMax = Math.max(newQuantityMax, amount);
+	}
+	
+	public void setUsedQuantity(int amount) {
+		usedQuantityMax = Math.max(usedQuantityMax, amount);
+	}
+	
+	public void setRefurbQuantity(int amount) {
+		refurbQuantityMax = Math.max(refurbQuantityMax, amount);
 	}
 	
 	public void setNewPrice(int price) {

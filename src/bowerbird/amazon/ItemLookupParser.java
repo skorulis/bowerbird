@@ -63,11 +63,11 @@ public class ItemLookupParser extends BaseParser{
 	
 	public void characters(char ch[], int start, int length) throws SAXException {
 		if(currentTag.equals(TAG_TotalNew)) {
-			price.newQuantity = Integer.parseInt(new String(ch,start,length));
+			price.setNewQuantity(Integer.parseInt(new String(ch,start,length)));
 		} else if(currentTag.equals(TAG_TotalUsed)) {
-			price.usedQuantity = Integer.parseInt(new String(ch,start,length));
+			price.setUsedQuantity(Integer.parseInt(new String(ch,start,length)));
 		} else if(currentTag.equals(TAG_TotalRefurbished)) {
-			price.refurbQuantity = Integer.parseInt(new String(ch,start,length));
+			price.setRefurbQuantity(Integer.parseInt(new String(ch,start,length)));
 		} else if(currentTag.equals(TAG_LowestNewPrice)) {
 			price.setNewPrice(Integer.parseInt(new String(ch,start,length)));
 		} else if(currentTag.equals(TAG_LowestUsedPrice)) {

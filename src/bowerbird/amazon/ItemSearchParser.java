@@ -1,7 +1,6 @@
 package bowerbird.amazon;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.xml.sax.Attributes;
@@ -38,6 +37,7 @@ public class ItemSearchParser extends BaseParser{
             Attributes attributes) throws SAXException {
 		if(qName.equals(TAG_ITEM)) {
 			currentItem = new AmazonItem();
+			currentItem.title = "";
 		} 
 		currentTag = qName;
 	}
@@ -54,7 +54,8 @@ public class ItemSearchParser extends BaseParser{
 		if(currentTag.equals(TAG_ASIN)) {
 			currentItem.asin = new String(ch,start,length);
 		} else if(currentTag.equals(TAG_TITLE)) {
-			currentItem.title = new String(ch,start,length); 
+			currentItem.title+=new String(ch,start,length);
+			System.out.println("Found title " + currentItem.title);
 		}
 	}
 
