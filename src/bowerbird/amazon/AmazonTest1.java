@@ -21,9 +21,9 @@ public class AmazonTest1 {
         
         ArrayList<AmazonItem> results = searchParser.performSearch("Electronics", "iPhone");
         for (AmazonItem searchResult : results) {
+			lookupParser.lookupItem(searchResult);
 			System.out.println(searchResult);
 			Thread.sleep(200);
-			lookupParser.lookupItem(searchResult);
 		}
         System.out.println("Lookup finished");
 	}

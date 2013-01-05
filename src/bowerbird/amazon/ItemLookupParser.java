@@ -17,17 +17,26 @@ public class ItemLookupParser extends BaseParser{
 	public static final String TAG_TotalUsed = "TotalUsed";
 	public static final String TAG_TotalRefurbished = "TotalRefurbished";
 	public static final String TAG_Amount = "Amount";
+	public static final String TAG_Description = "Description";
+	public static final String TAG_URL = "URL";
+	
+	public static final String DESC_AllOffers = "All Offers";
+	
+	//Parsing variables
+	private String currentTag;
+	private String descriptionText;
 	
 	
-	public String currentTag;
-	public PricePoint price;
-	
+	private PricePoint price;
+	private AmazonItem item;
 	
 	public ItemLookupParser(SignedRequestsHelper helper) {
 		super(helper);
+		descriptionText="";
 	}
 	
 	public void lookupItem(AmazonItem item) {
+		this.item = item;
 		Map<String, String> params = this.baseParameters();
         params.put("Operation", "ItemLookup");
         params.put("ItemId", item.asin);
@@ -35,13 +44,11 @@ public class ItemLookupParser extends BaseParser{
         
         price = new PricePoint();
         signAndParse(params);
-        System.out.println(price);
+        item.addPrice(price);
 	}
 	
 	public void startElement(String uri, String localName,String qName, 
             Attributes attributes) throws SAXException {
-		//System.out.print(tabLevel + "<" + qName + ">");
-		tabLevel+="  ";
 		if(qName.equals(TAG_Amount)) {
 			
 		} else {
@@ -52,12 +59,9 @@ public class ItemLookupParser extends BaseParser{
 	
 	public void endElement(String uri, String localName,
 			String qName) throws SAXException {
-		tabLevel = tabLevel.substring(2);
-		//System.out.print("</" + qName + ">");
 	}
 	
 	public void characters(char ch[], int start, int length) throws SAXException {
-		//System.out.println(new String(ch,start,length));
 		if(currentTag.equals(TAG_TotalNew)) {
 			price.newQuantity = Integer.parseInt(new String(ch,start,length));
 		} else if(currentTag.equals(TAG_TotalUsed)) {
@@ -70,7 +74,15 @@ public class ItemLookupParser extends BaseParser{
 			price.setUsedPrice(Integer.parseInt(new String(ch,start,length)));
 		} else if(currentTag.equals(TAG_LowestRefurbishedPrice)) {
 			price.setRefurbPrice(Integer.parseInt(new String(ch,start,length)));
-		} 
+		} else if(currentTag.equals(TAG_Description)) {
+			descriptionText = new String(ch,start,length);
+		} else if(currentTag.equals(TAG_URL)) {
+			if(descriptionText.equals(DESC_AllOffers)) {
+				item.allOffers = new String(ch,start,length);
+				descriptionText = "";
+			}
+		}
+			
 	}
 	
 	

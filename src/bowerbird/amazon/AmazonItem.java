@@ -8,6 +8,7 @@ public class AmazonItem {
 
 	public String title;
 	public String asin;
+	public String allOffers;
 	
 	public ArrayList<PricePoint> prices;
 	
@@ -16,7 +17,12 @@ public class AmazonItem {
 	}
 	
 	public String toString() {
-		return title + " = " + asin;
+		String ret = title + " = " + asin+"\n";
+		ret+=allOffers + "\n";
+		if(prices.size()>0) {
+			ret+=prices.get(prices.size()-1).toString();
+		}
+		return ret;
 	}
 	
 	public void addPrice(PricePoint pi) {

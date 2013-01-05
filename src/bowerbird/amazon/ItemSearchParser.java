@@ -36,7 +36,6 @@ public class ItemSearchParser extends BaseParser{
 	
 	public void startElement(String uri, String localName,String qName, 
             Attributes attributes) throws SAXException {
-		//System.out.println("Start " + qName);
 		if(qName.equals(TAG_ITEM)) {
 			currentItem = new AmazonItem();
 		} 
