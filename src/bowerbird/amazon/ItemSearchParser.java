@@ -55,7 +55,6 @@ public class ItemSearchParser extends BaseParser{
 			currentItem.asin = new String(ch,start,length);
 		} else if(currentTag.equals(TAG_TITLE)) {
 			currentItem.title+=new String(ch,start,length);
-			System.out.println("Found title " + currentItem.title);
 		}
 	}
 
