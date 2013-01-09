@@ -2,7 +2,6 @@ package bowerbird.common;
 
 import bowerbird.amazon.AmazonItem;
 import bowerbird.common.item.ItemProperties;
-import bowerbird.common.item.PhoneProperties;
 
 public class Commodity {
 
@@ -16,11 +15,6 @@ public class Commodity {
 	public Commodity(AmazonItem amazonItem) {
 		this.setAmazonItem(amazonItem);
 		this.name = amazonItem.title;
-		generateProperties();
-	}
-	
-	public void generateProperties() {
-		this.properites = PhoneProperties.parse(this.name); 
 	}
 	
 	public ItemProperties properties() {

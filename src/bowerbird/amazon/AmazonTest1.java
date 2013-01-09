@@ -45,7 +45,7 @@ public class AmazonTest1 {
         		//commodity.generateProperties();
         		//System.out.println(commodity.signature());
         		ItemProperties ip = parser.parseTitle(commodity.name());
-        		System.out.println("Got properties " + ip);
+        		System.out.println("Got properties " + ip.signature() + " for " + commodity.name());
         		//System.out.println("Found commodity " + commodity.name());
         	}
 			//lookupParser.lookupItem(commodity.amazonItem());
