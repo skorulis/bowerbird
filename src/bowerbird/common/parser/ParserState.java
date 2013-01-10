@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import bowerbird.common.item.ItemProperties;
 import bowerbird.common.item.RegexField;
+import bowerbird.common.parser.ParseResult.ParseResultCode;
 
 public class ParserState {
 
@@ -32,20 +33,23 @@ public class ParserState {
 			regex+=s+"|";
 		}
 		regex = regex.substring(0, regex.length()-1) + ")";
-		System.out.println("Gen pattern " + regex);
 		this.pattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
 	}
 	
-	public boolean isEndState() {
-		return regexFields.size() > 0;
-	}
-	
-	public ItemProperties getProperties(String title) {
-		ItemProperties ret = new ItemProperties();
+	public ParseResult getProperties(String title) {
+		ParseResult ret = new ParseResult(this,title);
+		if(this.regexFields.size()==0) {
+			ret.setResultCode(ParseResultCode.FAILED_NO_STATE);
+			return ret;
+		}
+		
+		ItemProperties props = new ItemProperties();
 		for(RegexField rf : this.regexFields) {
 			String value =  rf.getMatch(title);
-			ret.addValue(rf.fieldName(), value);
+			props.addValue(rf.field(), value);
 		}
+		ret.setResultCode(ParseResultCode.SUCCESS);
+		ret.setProperties(props);
 		return ret;
 	}
 	

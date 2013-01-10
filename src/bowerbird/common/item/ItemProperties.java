@@ -5,24 +5,24 @@ import java.util.HashMap;
 
 public class ItemProperties {
 
-	private ArrayList<String> fields;
+	private ArrayList<ItemField> fields;
 	private HashMap<String, String> values;
 	
 	public ItemProperties() {
-		fields = new ArrayList<String>();
+		fields = new ArrayList<ItemField>();
 		values = new HashMap<String, String>();
 	}
 	
 	public String signature() {
 		String ret = new String();
-		for(String s: fields) {
-			ret+=getValue(s)+" ";
+		for(ItemField f: fields) {
+			ret+=getValue(f.fieldName)+" ";
 		}
 		return ret;
 	}
 	
-	public void addValue(String field,String value) {
-		values.put(field, value);
+	public void addValue(ItemField field,String value) {
+		values.put(field.fieldName, value);
 		fields.add(field);
 	}
 	

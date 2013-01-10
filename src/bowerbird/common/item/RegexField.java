@@ -10,7 +10,7 @@ public class RegexField {
 	};
 	
 	private Pattern pattern;
-	private String fieldName;
+	private ItemField field;
 	private String staticText;
 	private RegexFieldType type;
 	private String delim;
@@ -18,7 +18,7 @@ public class RegexField {
 	public static RegexField createMultipleRegex(String field,String regex,String delim) {
 		RegexField rf = new RegexField();
 		rf.pattern = Pattern.compile(regex);
-		rf.fieldName = field;
+		rf.field = new ItemField(field);
 		rf.type = RegexFieldType.MULTIPLE;
 		rf.delim = delim;
 		return rf;
@@ -27,14 +27,14 @@ public class RegexField {
 	public static RegexField createStandardRegex(String field,String regex) {
 		RegexField rf = new RegexField();
 		rf.pattern = Pattern.compile(regex);
-		rf.fieldName = field;
+		rf.field = new ItemField(field);
 		rf.type = RegexFieldType.STANDARD;
 		return rf;
 	}
 	public static RegexField createStaticRege(String field,String text) {
 		RegexField rf = new RegexField();
 		rf.staticText = text;
-		rf.fieldName = field;
+		rf.field = new ItemField(field);
 		rf.type = RegexFieldType.STATIC;
 		return rf;
 	}
@@ -76,8 +76,8 @@ public class RegexField {
 		return ret;
 	}
 	
-	public String fieldName() {
-		return this.fieldName;
+	public ItemField field() {
+		return this.field;
 	}
 	
 	
