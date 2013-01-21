@@ -2,8 +2,9 @@ package bowerbird.common;
 
 import bowerbird.amazon.AmazonItem;
 import bowerbird.common.item.ItemProperties;
+import bowerbird.persistence.Persistable;
 
-public class Commodity {
+public class Commodity implements Persistable {
 
 	private AmazonItem amazonItem;
 	private String name;
@@ -35,6 +36,10 @@ public class Commodity {
 	
 	public String signature() {
 		return properites.signature();
+	}
+	
+	public String id() {
+		return signature();
 	}
 	
 }

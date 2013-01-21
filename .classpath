@@ -5,5 +5,27 @@
 	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/commons-codec-1.7.jar"/>
 	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/gson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jedis-2.1.0.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/servlet-api-3.0.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-ajp-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-annotations-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-client-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-continuation-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-deploy-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-http-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-io-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-jmx-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-jndi-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-overlay-deployer-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-plus-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-policy-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-rewrite-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-security-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-server-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-servlet-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-servlets-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-util-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-webapp-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-websocket-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="/Users/alex/Dev/java/BBServer/lib/jetty/jetty-xml-8.1.8.v20121106.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

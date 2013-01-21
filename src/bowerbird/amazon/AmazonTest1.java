@@ -1,63 +1,55 @@
 package bowerbird.amazon;
 
-import java.util.ArrayList;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
-import com.google.gson.Gson;
-
-import bowerbird.common.Commodity;
-import bowerbird.common.item.ItemProperties;
-import bowerbird.common.parser.ItemParser;
 import bowerbird.common.parser.ItemParserManager;
-import bowerbird.common.parser.ParseResult;
+import bowerbird.persistence.KVStore;
+import bowerbird.server.SearchAPIServlet;
 
-import redis.clients.jedis.Jedis;
 
 public class AmazonTest1 {
 
-	private static ItemSearchParser searchParser;
-	private static ItemLookupParser lookupParser;
-	private static SignedRequestsHelper helper;
-	private static Jedis jedis;
-	private static Gson gson;
-	private static ItemParser parser;
+	
 	private static ItemParserManager parserManager;
+	private static KVStore kvStore;
 
-	public static void main(String[] args) throws InterruptedException {
-		jedis = new Jedis("localhost");
-		gson = new Gson();
-        try {
-            helper = SignedRequestsHelper.getInstance(Constants.ENDPOINT, Constants.AWS_KEY, Constants.AWS_SECRET);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-        searchParser = new ItemSearchParser(helper);
-        lookupParser = new ItemLookupParser(helper);
-        parserManager = new ItemParserManager();
-        parser = new ItemParser(parserManager.baseState());
+	public static void main(String[] args) throws Exception {
+		kvStore = new KVStore();
+		parserManager = new ItemParserManager(kvStore);
+		int randPort = 1024 + (int) (Math.random()*2048);
+		Server server = new Server(randPort);
 		
+		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/search");
+     
+        context.addServlet(new ServletHolder(new SearchAPIServlet(parserManager)),"/*");
 		
-        ArrayList<AmazonItem> results = searchParser.performSearch("Electronics", "iPhone");
+        ResourceHandler resource_handler = new ResourceHandler();
+        resource_handler.setDirectoriesListed(true);
+        resource_handler.setResourceBase("../../html/bowerbird/");
+
+        HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[] {context, resource_handler});
+        server.setHandler(handlers);
+        
+        server.start();
+        server.join();
+        
+        /*ArrayList<AmazonItem> results = searchParser.performSearch("Electronics", "iPhone");
         Commodity commodity;
         for (AmazonItem item : results) {
-        	String comJson = jedis.get(item.title);
-        	if(comJson==null) {
-        		commodity = new Commodity(item);
-        		System.out.println("Created commodity " + commodity.name());
-        	} else {
-        		commodity = gson.fromJson(comJson, Commodity.class);
-        		//commodity.generateProperties();
-        		//System.out.println(commodity.signature());
-        		ParseResult res = parser.parseTitle(commodity.name());
-        		System.out.println(res);
-        		
-        		//System.out.println("Found commodity " + commodity.name());
-        	}
-			//lookupParser.lookupItem(commodity.amazonItem());
-			//System.out.println(commodity.amazonItem());
-			jedis.set(commodity.name(),gson.toJson(commodity));
-			Thread.sleep(200);
-		}
+        	commodity = new Commodity(item);
+        	ParseResult res = parser.parseTitle(commodity.name());
+        	System.out.println(res);
+        	
+			//Thread.sleep(200);
+		}*/
         System.out.println("Lookup finished");
 	}
 	

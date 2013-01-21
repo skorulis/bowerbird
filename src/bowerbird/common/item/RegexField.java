@@ -3,6 +3,8 @@ package bowerbird.common.item;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.gson.annotations.Expose;
+
 public class RegexField {
 
 	public enum RegexFieldType {
@@ -10,24 +12,26 @@ public class RegexField {
 	};
 	
 	private Pattern pattern;
-	private ItemField field;
-	private String staticText;
-	private RegexFieldType type;
-	private String delim;
+	@Expose private ItemField field;
+	@Expose private String staticText;
+	@Expose private RegexFieldType type;
+	@Expose private String delim;
+	@Expose private String regex;
 	
 	public static RegexField createMultipleRegex(String field,String regex,String delim) {
 		RegexField rf = new RegexField();
-		rf.pattern = Pattern.compile(regex);
+		rf.regex = regex;
 		rf.field = new ItemField(field);
 		rf.type = RegexFieldType.MULTIPLE;
 		rf.delim = delim;
 		return rf;
 	}
 	
-	public static RegexField createStandardRegex(String field,String regex) {
+	public static RegexField createStandardRegex(String field,String regex,boolean required) {
 		RegexField rf = new RegexField();
-		rf.pattern = Pattern.compile(regex);
+		rf.regex = regex;
 		rf.field = new ItemField(field);
+		rf.field.required = required;
 		rf.type = RegexFieldType.STANDARD;
 		return rf;
 	}
@@ -57,7 +61,9 @@ public class RegexField {
 	}
 	
 	public String standardMatch(String text) {
-		Matcher m = pattern.matcher(text);
+		Matcher m = pattern().matcher(text);
+		System.out.println("Matching to " + pattern().pattern() + " - " + text + " count " + m.groupCount());
+		
 		if(m.find()) {
 			return m.group();
 		}
@@ -66,7 +72,7 @@ public class RegexField {
 	
 	public String multipleMatch(String text) {
 		String ret = " ";
-		Matcher m = pattern.matcher(text);
+		Matcher m = pattern().matcher(text);
 		while(m.find()) {
 			ret+=m.group().trim()+delim;
 		}
@@ -80,5 +86,11 @@ public class RegexField {
 		return this.field;
 	}
 	
+	private Pattern pattern() {
+		if(pattern==null) {
+			pattern = Pattern.compile(regex);
+		}
+		return pattern;
+	}
 	
 }

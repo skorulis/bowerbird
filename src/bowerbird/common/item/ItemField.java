@@ -1,9 +1,11 @@
 package bowerbird.common.item;
 
+import com.google.gson.annotations.Expose;
+
 public class ItemField {
 
-	public String fieldName;
-	public boolean required;
+	@Expose public String fieldName;
+	@Expose public boolean required;
 	
 	public ItemField(String fieldName) {
 		this(fieldName,false);

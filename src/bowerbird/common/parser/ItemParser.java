@@ -1,29 +1,41 @@
 package bowerbird.common.parser;
 
-import bowerbird.common.item.ItemProperties;
-
 public class ItemParser {
 
-	private ParserState baseState;
+	private ItemParserManager manager;
 	
-	public ItemParser(ParserState baseState) {
-		this.baseState = baseState;
+	public ItemParser(ItemParserManager manager) {
+		this.manager = manager;
 	}
 	
 	public ParseResult parseTitle(String title) {
-		ParserState state = baseState;
+		ParserState state = manager.baseState();
 		ParserState nextState;
 		String lowercase = title.toLowerCase();
 		while(true) {
-			nextState = state.nextState(lowercase);
+			nextState = this.nextState(state, lowercase);
 			if(nextState!=null) {
 				state = nextState;
-				System.out.println("Moved to state " + state);
+				System.out.println("Moved to " + state);
 			} else {
 				ParseResult result = state.getProperties(title);
 				return result;
 			}
 		}
+	}
+	
+	private ParserState nextState(ParserState state,String lowercase) {
+		ParserState bestState = null;
+		float bestValue = -1;
+		for(String stateId: state.chlidren()) {
+			ParserState next = manager.getState(stateId);
+			float val = next.getValue(lowercase);
+			if(val > bestValue) {
+				bestState = next;
+				bestValue = val;
+			}
+		}
+		return bestState;
 	}
 	
 	

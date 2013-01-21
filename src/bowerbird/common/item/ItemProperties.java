@@ -26,6 +26,20 @@ public class ItemProperties {
 		fields.add(field);
 	}
 	
+	public ArrayList<String> missingFields() {
+		ArrayList<String> ret = new ArrayList<String>();
+		for(ItemField f:fields) {
+			if(f.required && getValue(f.fieldName)==null) {
+				ret.add(f.fieldName);
+			}
+		}
+		return ret;
+	}
+	
+	public ArrayList<ItemField> fields() {
+		return fields;
+	}
+	
 	public String getValue(String field) {
 		return values.get(field);
 	}
