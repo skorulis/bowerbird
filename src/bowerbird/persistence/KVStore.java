@@ -1,6 +1,7 @@
 package bowerbird.persistence;
 
 import bowerbird.common.Commodity;
+import bowerbird.common.item.RegexField;
 import bowerbird.common.parser.ParserState;
 
 import com.google.gson.Gson;
@@ -37,6 +38,8 @@ public class KVStore {
 			return "PS:";
 		} else if(c==Commodity.class) {
 			return "COM";
+		} else if(c==RegexField.class) {
+			return "RF:";
 		}
 		return null;
 	}

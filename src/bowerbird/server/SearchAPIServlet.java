@@ -47,5 +47,9 @@ public class SearchAPIServlet extends HttpServlet {
     	response.setStatus(200);
 		
     }
+	
+	public AmazonSearchManager searchManager() {
+		return searchManager;
+	}
 
 }
