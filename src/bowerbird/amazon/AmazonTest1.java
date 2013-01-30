@@ -42,8 +42,8 @@ public class AmazonTest1 {
         
         searchAPI.searchManager().performSearch("iPhone");
         
-        server.start();
-        server.join();
+        //server.start();
+        //server.join();
         
         
         /*ArrayList<AmazonItem> results = searchParser.performSearch("Electronics", "iPhone");

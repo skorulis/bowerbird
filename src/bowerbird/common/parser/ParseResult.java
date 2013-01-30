@@ -77,7 +77,7 @@ public class ParseResult {
 		if(resultCode()==ParseResultCode.SUCCESS) {
 			return "Got " + properties().signature() + " for " + input;
 		} else if(resultCode()==ParseResultCode.FAILED_NO_STATE) {
-			return "Could not transition from " + finalState + " for " + input;
+			return "Stuck at state: " + finalState + " for " + input;
 		} else if(resultCode()==ParseResultCode.FAILED_MISSING_FIELD) {
 			String ret = "Could not locate ";
 			for(String s: missingFields) {

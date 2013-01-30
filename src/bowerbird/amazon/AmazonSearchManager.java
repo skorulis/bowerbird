@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import bowerbird.common.parser.ItemParser;
 import bowerbird.common.parser.ItemParserManager;
 import bowerbird.common.parser.ParseResult;
+import bowerbird.common.parser.ParseResult.ParseResultCode;
 
 
 public class AmazonSearchManager {
@@ -33,6 +34,9 @@ public class AmazonSearchManager {
         	ParseResult res = parser.parseTitle(item.title);
         	parsed.add(res);
         	System.out.println(res);
+        	if(res.resultCode()!=ParseResultCode.SUCCESS) {
+        		break;
+        	}
 		}
 		return parsed;
 	}

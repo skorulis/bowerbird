@@ -3,15 +3,19 @@ package bowerbird.common.item;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import bowerbird.persistence.Persistable;
+
 import com.google.gson.annotations.Expose;
 
-public class RegexField {
+public class RegexField implements Persistable {
 
 	public enum RegexFieldType {
 		STANDARD, STATIC, MULTIPLE 
 	};
 	
 	private Pattern pattern;
+	
+	@Expose private String id;
 	@Expose private ItemField field;
 	@Expose private String staticText;
 	@Expose private RegexFieldType type;
@@ -19,32 +23,29 @@ public class RegexField {
 	@Expose private String regex;
 	
 	public static RegexField createMultipleRegex(String field,String regex,String delim) {
-		RegexField rf = new RegexField();
+		RegexField rf = new RegexField(RegexFieldType.MULTIPLE);
 		rf.regex = regex;
 		rf.field = new ItemField(field);
-		rf.type = RegexFieldType.MULTIPLE;
 		rf.delim = delim;
 		return rf;
 	}
 	
 	public static RegexField createStandardRegex(String field,String regex,boolean required) {
-		RegexField rf = new RegexField();
+		RegexField rf = new RegexField(RegexFieldType.STANDARD);
 		rf.regex = regex;
 		rf.field = new ItemField(field);
 		rf.field.required = required;
-		rf.type = RegexFieldType.STANDARD;
 		return rf;
 	}
-	public static RegexField createStaticRege(String field,String text) {
-		RegexField rf = new RegexField();
+	public static RegexField createStaticRegex(String field,String text) {
+		RegexField rf = new RegexField(RegexFieldType.STATIC);
 		rf.staticText = text;
 		rf.field = new ItemField(field);
-		rf.type = RegexFieldType.STATIC;
 		return rf;
 	}
 	
-	public RegexField() {
-		
+	public RegexField(RegexFieldType type) {
+		this.type = type;
 	}
 	
 	public String getMatch(String text) {
@@ -91,6 +92,14 @@ public class RegexField {
 			pattern = Pattern.compile(regex);
 		}
 		return pattern;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public String id() {
+		return id;
 	}
 	
 }

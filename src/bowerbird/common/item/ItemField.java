@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 public class ItemField {
 
+	@Expose public String id;
 	@Expose public String fieldName;
 	@Expose public boolean required;
 	
