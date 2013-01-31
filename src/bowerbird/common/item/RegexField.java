@@ -1,9 +1,12 @@
 package bowerbird.common.item;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import bowerbird.persistence.Persistable;
+import bowerbird.util.StringUtil;
 
 import com.google.gson.annotations.Expose;
 
@@ -20,19 +23,20 @@ public class RegexField implements Persistable {
 	@Expose private String staticText;
 	@Expose private RegexFieldType type;
 	@Expose private String delim;
-	@Expose private String regex;
+	@Expose private ArrayList<String> terms;
+
 	
-	public static RegexField createMultipleRegex(String field,String regex,String delim) {
+	public static RegexField createMultipleRegex(String field,String[] terms,String delim) {
 		RegexField rf = new RegexField(RegexFieldType.MULTIPLE);
-		rf.regex = regex;
+		rf.terms.addAll(Arrays.asList(terms));
 		rf.field = new ItemField(field);
 		rf.delim = delim;
 		return rf;
 	}
 	
-	public static RegexField createStandardRegex(String field,String regex,boolean required) {
+	public static RegexField createStandardRegex(String field,String[] terms,boolean required) {
 		RegexField rf = new RegexField(RegexFieldType.STANDARD);
-		rf.regex = regex;
+		rf.terms.addAll(Arrays.asList(terms));
 		rf.field = new ItemField(field);
 		rf.field.required = required;
 		return rf;
@@ -44,7 +48,12 @@ public class RegexField implements Persistable {
 		return rf;
 	}
 	
+	private RegexField() {
+		terms = new ArrayList<String>();
+	}
+	
 	public RegexField(RegexFieldType type) {
+		this();
 		this.type = type;
 	}
 	
@@ -53,7 +62,7 @@ public class RegexField implements Persistable {
 			case STANDARD:
 				return standardMatch(text);
 			case STATIC:
-				return staticText;
+				return staticMatch(text);
 			case MULTIPLE:
 				return multipleMatch(text);
 		}
@@ -61,13 +70,19 @@ public class RegexField implements Persistable {
 		return null;
 	}
 	
+	public String staticMatch(String text) {
+		System.out.println("Static match " + text + " = " + staticText);
+		return staticText;
+	}
+	
 	public String standardMatch(String text) {
 		Matcher m = pattern().matcher(text);
-		System.out.println("Matching to " + pattern().pattern() + " - " + text + " count " + m.groupCount());
+		String ret = null;
 		
 		if(m.find()) {
-			return m.group();
+			ret = m.group();
 		}
+		System.out.println("Matching to " + pattern().pattern() + " - " + text + " count " + m.groupCount() + " = " + ret);
 		return null;
 	}
 	
@@ -89,9 +104,13 @@ public class RegexField implements Persistable {
 	
 	private Pattern pattern() {
 		if(pattern==null) {
-			pattern = Pattern.compile(regex);
+			pattern = Pattern.compile(generateRegex());
 		}
 		return pattern;
+	}
+	
+	public String generateRegex() {
+		return StringUtil.regexFromTerms(terms);
 	}
 	
 	public void setId(String id) {

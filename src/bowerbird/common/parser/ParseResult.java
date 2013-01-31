@@ -64,7 +64,7 @@ public class ParseResult {
 		while(unknownWords.remove(" "));
 		for(int i = unknownWords.size()-1; i >= 0; --i) {
 			String s = unknownWords.get(i);
-			if(StringUtil.isOnlyWhitespace(s)) {
+			if(StringUtil.isOnlyWhitespace(s) || StringUtil.isSinglePunctuation(s)) {
 				unknownWords.remove(i);
 			}
 		}

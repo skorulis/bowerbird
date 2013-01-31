@@ -16,7 +16,6 @@ public class ItemParser {
 			nextState = this.nextState(state, lowercase);
 			if(nextState!=null) {
 				state = nextState;
-				System.out.println("Moved to " + state);
 			} else {
 				ParseResult result = state.getProperties(title);
 				return result;

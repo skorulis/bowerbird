@@ -53,12 +53,8 @@ public class ParserState implements Persistable {
 			System.out.println("Missing terms for " + id());
 			return;
 		}
-		String regex = "(";
-		Set<String> keys = terms.keySet();
-		for (String s : keys) {
-			regex += s + "|";
-		}
-		regex = regex.substring(0, regex.length() - 1) + ")";
+		String regex = StringUtil.regexFromTerms(terms.keySet());
+		
 		this.pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 	}
 

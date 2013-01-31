@@ -27,10 +27,10 @@ public class ItemParserManager {
 	
 	private void buildTestParser() {
 		addRegex(RegexField.createStaticRegex("phone", "iPhone"),"1");
-		addRegex(RegexField.createMultipleRegex("model", "( |/)(3GS|3G|4S|3|4|5)", "/"),"2");
+		addRegex(RegexField.createMultipleRegex("model", new String[]{"3GS","3G","4S","3","4","5"}, "/"),"2");
 		addRegex(RegexField.createStaticRegex("brand", "Apple"),"3");
-		addRegex(RegexField.createStandardRegex("model","iPhone (3GS|3G|4S|3|4|5)",true),"4");
-		addRegex(RegexField.createStandardRegex("size", "[0-9]{1,3}GB", true),"5");
+		addRegex(RegexField.createStandardRegex("model",new String[]{"3GS","3G","4S","3","4","5"},true),"4");
+		addRegex(RegexField.createStandardRegex("size", new String[]{"[0-9]{1,3}GB"}, true),"5");
 		
 		baseState = new ParserState(BASESTATE_ID);
 		allStates.put(baseState.id(), baseState);

@@ -10,6 +10,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import bowerbird.common.parser.ItemParserManager;
 import bowerbird.persistence.KVStore;
 import bowerbird.server.SearchAPIServlet;
+import bowerbird.server.SystemAPIServlet;
 
 
 public class AmazonTest1 {
@@ -18,6 +19,7 @@ public class AmazonTest1 {
 	private static ItemParserManager parserManager;
 	private static KVStore kvStore;
 	private static SearchAPIServlet searchAPI;
+	private static SystemAPIServlet systemAPI;
 	
 	public static void main(String[] args) throws Exception {
 		kvStore = new KVStore();
@@ -25,12 +27,14 @@ public class AmazonTest1 {
 		int randPort = 1024 + (int) (Math.random()*2048);
 		Server server = new Server(randPort);
 		
-		searchAPI = new SearchAPIServlet(parserManager); 
+		searchAPI = new SearchAPIServlet(parserManager);
+		systemAPI = new SystemAPIServlet();
 		
 		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/search");
-        
-        context.addServlet(new ServletHolder(searchAPI),"/*");
+        context.setContextPath("/");
+
+        context.addServlet(new ServletHolder(searchAPI),"/search.json");
+        context.addServlet(new ServletHolder(systemAPI), "/system.json");
 		
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);
@@ -42,8 +46,8 @@ public class AmazonTest1 {
         
         searchAPI.searchManager().performSearch("iPhone");
         
-        //server.start();
-        //server.join();
+        server.start();
+        server.join();
         
         
         /*ArrayList<AmazonItem> results = searchParser.performSearch("Electronics", "iPhone");
