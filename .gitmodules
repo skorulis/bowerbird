@@ -1,0 +1,3 @@
+[submodule "External/proto"]
+	path = External/proto
+	url = https://github.com/skorulis/bowerbird-proto.git

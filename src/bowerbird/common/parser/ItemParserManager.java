@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import bowerbird.common.item.ItemField;
-import bowerbird.common.item.RegexField;
+import bowerbird.gpb.BowerbirdMessageProtocolGPB.RegexField;
+import bowerbird.gpb.RegexFieldHelper;
+import bowerbird.gpb.BowerbirdMessageProtocolGPB.ItemField;
 import bowerbird.persistence.KVStore;
 
 public class ItemParserManager {
@@ -26,11 +27,11 @@ public class ItemParserManager {
 	}
 	
 	private void buildTestParser() {
-		addRegex(RegexField.createStaticRegex("phone", "iPhone"),"1");
-		addRegex(RegexField.createMultipleRegex("model", new String[]{"3GS","3G","4S","3","4","5"}, "/"),"2");
-		addRegex(RegexField.createStaticRegex("brand", "Apple"),"3");
-		addRegex(RegexField.createStandardRegex("model",new String[]{"3GS","3G","4S","3","4","5"},true),"4");
-		addRegex(RegexField.createStandardRegex("size", new String[]{"[0-9]{1,3}GB"}, true),"5");
+		addRegex(RegexFieldHelper.createStaticRegex("phone", "iPhone"),"1");
+		addRegex(RegexFieldHelper.createMultipleRegex("model", new String[]{"3GS","3G","4S","3","4","5"}, "/"),"2");
+		addRegex(RegexFieldHelper.createStaticRegex("brand", "Apple"),"3");
+		addRegex(RegexFieldHelper.createStandardRegex("model",new String[]{"3GS","3G","4S","3","4","5"},true),"4");
+		addRegex(RegexFieldHelper.createStandardRegex("size", new String[]{"[0-9]{1,3}GB"}, true),"5");
 		
 		baseState = new ParserState(BASESTATE_ID);
 		allStates.put(baseState.id(), baseState);
@@ -113,8 +114,8 @@ public class ItemParserManager {
 	}
 	
 	public String addRegex(RegexField regex,String id) {
-		regex.setId(id);
-		kvStore.save(regex);
+		regex = RegexField.newBuilder(regex).setIdent(id).build();
+		//kvStore.save(regex); //TODO
 		return id;
 	}
 	

@@ -60,6 +60,7 @@ public class ParseResult {
 	}
 	
 	public void setLeftoverString(String left) {
+		System.out.println("Left " + left);
 		this.unknownWords = new ArrayList<String>(Arrays.asList(left.split(" ")));
 		while(unknownWords.remove(" "));
 		for(int i = unknownWords.size()-1; i >= 0; --i) {

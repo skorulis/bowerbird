@@ -1,51 +1,38 @@
-package bowerbird.common.item;
+package bowerbird.gpb;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import bowerbird.persistence.Persistable;
+import bowerbird.gpb.BowerbirdMessageProtocolGPB.ItemField;
+import bowerbird.gpb.BowerbirdMessageProtocolGPB.RegexField;
+import bowerbird.gpb.BowerbirdMessageProtocolGPB.RegexField.RegexFieldType;
 import bowerbird.util.StringUtil;
 
-import com.google.gson.annotations.Expose;
+public class RegexFieldHelper {
 
-public class RegexField implements Persistable {
-
-	public enum RegexFieldType {
-		STANDARD, STATIC, MULTIPLE 
-	};
-	
-	private Pattern pattern;
-	
-	@Expose private String id;
-	@Expose private ItemField field;
-	@Expose private String staticText;
-	@Expose private RegexFieldType type;
-	@Expose private String delim;
-	@Expose private ArrayList<String> terms;
-
-	
 	public static RegexField createMultipleRegex(String field,String[] terms,String delim) {
-		RegexField rf = new RegexField(RegexFieldType.MULTIPLE);
-		rf.terms.addAll(Arrays.asList(terms));
-		rf.field = new ItemField(field);
-		rf.delim = delim;
-		return rf;
+		return RegexField.newBuilder().
+		setType(RegexFieldType.MULTIPLE).
+		setField(ItemFieldHelper.makeField(field)).
+		setDelim(delim).addAllTerms(Arrays.asList(terms))
+		.buildPartial();
 	}
 	
 	public static RegexField createStandardRegex(String field,String[] terms,boolean required) {
-		RegexField rf = new RegexField(RegexFieldType.STANDARD);
-		rf.terms.addAll(Arrays.asList(terms));
-		rf.field = new ItemField(field);
-		rf.field.required = required;
-		return rf;
+		return RegexField.newBuilder().
+				setType(RegexFieldType.STANDARD).
+				setField(ItemFieldHelper.makeField(field,required)).
+				addAllTerms(Arrays.asList(terms)).
+				buildPartial();
 	}
 	public static RegexField createStaticRegex(String field,String text) {
-		RegexField rf = new RegexField(RegexFieldType.STATIC);
-		rf.staticText = text;
-		rf.field = new ItemField(field);
-		return rf;
+		return RegexField.newBuilder().
+				setType(RegexFieldType.STATIC).
+				setField(ItemFieldHelper.makeField(field)).
+				setStaticText(text).
+				buildPartial();
 	}
 	
 	private RegexField() {
@@ -71,7 +58,6 @@ public class RegexField implements Persistable {
 	}
 	
 	public String staticMatch(String text) {
-		System.out.println("Static match " + text + " = " + staticText);
 		return staticText;
 	}
 	
@@ -83,7 +69,7 @@ public class RegexField implements Persistable {
 			ret = m.group();
 		}
 		System.out.println("Matching to " + pattern().pattern() + " - " + text + " count " + m.groupCount() + " = " + ret);
-		return null;
+		return ret;
 	}
 	
 	public String multipleMatch(String text) {

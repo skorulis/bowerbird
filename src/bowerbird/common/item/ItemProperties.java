@@ -2,6 +2,8 @@ package bowerbird.common.item;
 
 import java.util.ArrayList;
 
+import bowerbird.gpb.BowerbirdMessageProtocolGPB.RegexField;
+
 public class ItemProperties {
 
 	private ArrayList<ItemFieldValue> fields;
